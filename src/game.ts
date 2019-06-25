@@ -15,9 +15,6 @@ import { GalleryPuzzle } from "./gallerypuzzle";
 import * as som from './som.json';
 log("scene.title: " + som.scene.title); 
 
-//let map = new Map<string, string>();
-//map.set("key", "hello world");
-
 /// -------- SCENE CREATION FUNCTIONS --------
 
 function spawnSceneObject(data:object) 
@@ -87,12 +84,6 @@ function addCollider(collider:CubeCollider)
   
 }
 
-// function changedZones(newZone:GameZone)
-// {
-//   displayTxt.value = newZone.text;
-//   log("CHANGED ZONES: " + newZone.name);
-// }
-
 // -- UI ---
 // Create screenspace component
 const canvas = new UICanvas()
@@ -113,31 +104,6 @@ let p3 = new Vector3(0.1, 0.2, 0.3);
 testBox(aabb, p3, 3);
 let p4 = new Vector3(1.7, 1.8, 1.9);
 testBox(aabb, p4, 4);
-
-
-// --- ZONE MANAGER ---
-
-// const z1 = new Entity();
-// let z1Trans = new Transform({ position: new Vector3(12, 2, -24), scale: new Vector3(10, 4, 10) });
-// z1.addComponent(z1Trans);
-// //// don't add the shape if you want it invisible
-// z1.addComponent(new BoxShape());
-// engine.addEntity(z1);
-
-// const z2 = new Entity();
-// let z2Trans = new Transform({ position: new Vector3(24, 2.5, -24), scale: new Vector3(10, 5, 10) });
-// z2.addComponent(z1Trans);
-// //// don't add the shape if you want it invisible
-// z2.addComponent(new BoxShape());
-// engine.addEntity(z2);
-
-// let zoner:ZoneManager = new ZoneManager();
-// ////zoner.displayTxt = displayTxt;
-// zoner.onZoneChanged = changedZones;
-
-// zoner.addZone(Zone.Start, "This is the Start zone!", z1Trans.position, z1Trans.scale);
-// zoner.addZone(Zone.Victory, "This is the Victory zone!", z2Trans.position, z2Trans.scale);
-
 
 // load hillside colliders
 const hillCollider1 = new Entity();
@@ -218,12 +184,6 @@ cloud.addComponent(
   })
 )
 
-const test = spawnSceneObject(som.scene.jumpRamp);
-test.addComponent(
-  new OnClick(() => {
-    log("cam pos=" + Camera.instance.position);
-  })
-)
 */
 let structuresLoaded:boolean = false;
 const loader:ModelLoader = new ModelLoader();
@@ -231,36 +191,6 @@ const loader:ModelLoader = new ModelLoader();
 loadLandscape();
 //loadStructures();
 //loadAnimals();
-/*
-// ground plane
-let ground = new Entity();
-let mat = new Material();
-
-let floorTex = new Texture('models/dirt2_baseColor.jpg', {wrap: 8});
-mat.albedoTexture = floorTex;
-mat.reflectionColor = Color3.FromHexString("#9E6A34");
-mat.reflectivityColor = Color3.FromHexString("#9E6A34");
-ground.addComponent(mat);
-ground.addComponent(new Transform({
-  position: new Vector3(16, 0, 48),
-  rotation: Quaternion.Euler(-90, 0, 0),
-  scale: new Vector3(16, 16, 1)
-}));
-let plane = new PlaneShape();
-plane.uvs = [
-  -5, -5,
-  5, -5,
-  5, 5,
-  -5, 5,
-  0, 0,
-  1, 0,
-  1, 1,
-  0, 1
-]
-ground.addComponent(plane);
-engine.addEntity(ground);
-*/
-
 
 // --- SYSTEMS ---
 
@@ -440,21 +370,6 @@ function loadLandscape()
 
 function loadStructures()
 {
-  //const castle = loader.spawnSceneObject(som.scene.castle);
-  // const bridge = loader.spawnSceneObject(som.scene.bridgetest);
-  // log("bridge.rot=" + bridge.getComponent(Transform).rotation);
-
-  //let rotator = new Rotatable(bridge, new Quaternion(0, 0, 0.7071, 0.7071), true, true, false, 4, 1);
-  //let rotator = new Rotatable(bridge, new Quaternion(0.5, 0.5, -0.5, 0.5), 4, 1);
-  
-  // let rotator = new Rotatable3(bridge, new Vector3(0, 90, 0), 4, 1);
-  // bridge.addComponent(rotator);
-  // bridge.addComponentOrReplace(
-  //   new OnClick(() => {
-  //     rotator.toggleRotation();
-  //   })
-  // )
- 
   const wallBack = loader.spawnSceneObject(som.scene.wallBack);
   const wallRight = loader.spawnSceneObject(som.scene.wallRight);
   const wallLeft = loader.spawnSceneObject(som.scene.wallLeft);
@@ -565,15 +480,13 @@ function loadStructures()
 
   const drawbridge = loader.spawnSceneObject(som.scene.drawbridge);
   let bridgeRotator = new Rotatable3(drawbridge, new Vector3(90, 0, 0), 4, 1);
-  //let rotator = new Rotatable(bridge, new Quaternion(0, 0, 0.7071, 0.7071), true, true, false, 4, 1);
-  //let rotator = new Rotatable(bridge, new Quaternion(0.5, 0.5, -0.5, 0.5), 4, 1);
   drawbridge.addComponent(bridgeRotator);
-  // drawbridge.addComponentOrReplace(
-  //   new OnClick(() => {
-  //     //bridgeRotator.toggleRotation();
-  //     // can't trigger this directly -- hit the lever
-  //   })
-  // )
+  drawbridge.addComponentOrReplace(
+    new OnClick(() => {
+      //bridgeRotator.toggleRotation();
+      // can't trigger this directly -- hit the lever
+    })
+  )
 
   let leverHit:boolean = false;
   const lever = loader.spawnSceneObject(som.scene.lever);
@@ -774,39 +687,6 @@ function loadAnimals()
     })
   )
 }
-
-// const ramp = loader.spawnSceneObject(som.scene.ramp);
-// ramp.addComponent(
-//   new OnClick(() => {
-//     getLookVector();
-//   })
-// )
-
-function showTextInput()
-{
-  const textInput = new UIInputText(canvas)
-  textInput.width = '80%'
-  textInput.height = '25px'
-  textInput.vAlign = 'bottom'
-  textInput.hAlign = 'center'
-  textInput.fontSize = 10
-  textInput.placeholder = 'the code'
-  textInput.placeholderColor = Color4.Gray()
-  textInput.positionX = '25px'
-  textInput.positionY = '25px'
-  textInput.isPointerBlocker = true
-
-  textInput.onTextSubmit = new OnTextSubmit(x => {
-    const text = new UIText(textInput)
-    text.value = '<USER-ID> ' + x.text
-    text.width = '100%'
-    text.height = '20px'
-    text.vAlign = 'top'
-    text.hAlign = 'left'
-  })
-}
-
-
 
 // --- UTILITY FUNCTIONS ---
 
