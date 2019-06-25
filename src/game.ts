@@ -397,7 +397,6 @@ function loadStructures()
   lever2.addComponent(leverRotator2);
   lever2.addComponentOrReplace(
     new OnClick(() => {
-
         leverRotator2.toggleRotation();
         turretRotator.toggleRotation();
         turretSlider.togglePos();
@@ -625,7 +624,6 @@ function loadCastleColliders()
   cube3.addComponent(cc3);
   //log("colliders=" + RigidBody.colliders);
   addCollider(cc3);
-  
 }
 
 function loadAnimals()

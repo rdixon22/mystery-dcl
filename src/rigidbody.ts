@@ -28,7 +28,6 @@ export class RigidBody {
 
   public forces:Vector3 = new Vector3(0,0,0);
   public velocity:Vector3 = new Vector3(12,0,12);
-  //public acceleration:Vector3;
   public mass = 1.0;
   public bounciness = 0.7;
 
@@ -56,7 +55,6 @@ export class RigidBody {
           this.kick();
         })
     )
-
   }
 
   update(dt:number)
@@ -95,8 +93,6 @@ export class RigidBody {
     
     let acceleration = this.forces.multiplyByFloats(m, m, m);
     
-    let oldVelocity = this.velocity;
-    
     this.velocity = this.velocity.multiplyByFloats(this.friction, this.friction, this.friction);
     this.velocity.addInPlace(acceleration); // .multiplyByFloats(dt, dt, dt)
 
@@ -110,7 +106,7 @@ export class RigidBody {
   {
     if (this.newPosition.y <= this.groundY)
     {
-      // first stop at the ground plane, and set bounce velocity for next frame
+      // bounce against the ground plane first, and set bounce velocity for next frame
       this.bounceOffGround(dt);
     }
     else if (RigidBody.colliders.length > 0)
@@ -129,7 +125,7 @@ export class RigidBody {
         {
           //log("surfacePoint=");
           //log(cc.getClosestPoint(this.trans.position));
-          // note the following breaks if the position was already iside the box last frame
+          // note the following breaks if the position was already inside the box last frame
           this.bounceOffCube(dt, bounceNormal, cc.aabb);
           // only handle one bounce per frame
           break;

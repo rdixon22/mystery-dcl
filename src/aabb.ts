@@ -54,6 +54,11 @@ export class AABB
         return result;
     }
 
+    /**
+     * Approximate the place at twhere to point first entered the collider.
+     * NOTE: This is a quick hack to get something done. It fails near edges. Should be replaced with a raycasted approach!
+     * @param point 
+     */
     getSurfacePoint(point:Vector3):Vector3
     {
         

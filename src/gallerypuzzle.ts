@@ -25,6 +25,10 @@ export class GalleryPuzzle
         this.totalValue = this.wheel1.value*1000 + this.wheel2.value*100 + this.wheel3.value*10 + this.wheel4.value;
     }
 
+    /**
+     * Check values to see if we've solved it.
+     * NOTE: fat arrow approach to make sure "this" stays in context
+     */
     public onWheelValueChanged = () => 
     {
         this.calcTotal();
