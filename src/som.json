@@ -1,0 +1,493 @@
+{
+  "scene": {
+    "title": "Mystery Castle",
+    "platform": {
+      "filename": "new/platform_model.glb",
+      "pos": [ 61.5, 14, 8 ],
+      "angles": [ 0, 270, 0 ],
+      "scale": [ 1.4, 1.5, 1.5 ]
+    },
+    "altar": {
+      "filename": "new/altar_model.glb",
+      "pos": [ 60, 14, 8 ],
+      "angles": [ 0, 270, 0 ],
+      "scale": [ 1.5, 1.5, 1.5 ],
+      "text": "An ancient stone altar.\nA faint inscription says:\nLeporine King, in ancient days\nRewarded knights both good and kind\nFulfill a quest, O noble soul\nA token treasure you will find"
+    },
+    "altarButton": {
+      "filename": "new/altarButton_model.glb",
+      "pos": [ 60, 14, 8 ],
+      "angles": [ 0, 270, 0 ],
+      "scale": [ 1.5, 1.5, 1.5 ]
+    },
+    "hill": {
+      "filename": "new/hill_model.glb",
+      "pos": [ 58, 14, 8 ],
+      "angles": [ 0, 270, 0 ],
+      "scale": [ 1.5, 1.5, 1.5 ]
+    },
+    "hill01": {
+      "filename": "new/hill01_model.glb",
+      "pos": [ 58, 14, 8 ],
+      "angles": [ 0, 270, 0 ],
+      "scale": [ 1.5, 1.5, 1.5 ]
+    },
+    "hill02": {
+      "filename": "new/hill02_model.glb",
+      "pos": [ 58, 14, 8 ],
+      "angles": [ 0, 270, 0 ],
+      "scale": [ 1.5, 1.5, 1.5 ]
+    },
+    "hill03": {
+      "filename": "new/hill03_model.glb",
+      "pos": [ 58, 14, 8 ],
+      "angles": [ 0, 270, 0 ],
+      "scale": [ 1.5, 1.5, 1.5 ]
+    },
+    "hill04": {
+      "filename": "new/hill04_model.glb",
+      "pos": [ 58, 14, 8 ],
+      "angles": [ 0, 270, 0 ],
+      "scale": [ 1.5, 1.5, 1.5 ]
+    },
+    "hillCover": {
+      "filename": "new/hillcover_model.glb",
+      "pos": [ 58, 14, 8 ],
+      "angles": [ 0, 270, 0 ],
+      "scale": [ 1.5, 1.5, 1.5 ]
+    },
+    "castle": {
+      "filename": "final/fortress_model.glb",
+      "pos": [ 58, 14, 8 ],
+      "angles": [ 0, 270, 0 ],
+      "scale": [ 1.5, 1.5, 1.5 ]
+    },
+    "wallBack": {
+      "filename": "new/wallBack_model.glb",
+      "pos": [ 58, 14, 8 ],
+      "angles": [ 0, 270, 0 ],
+      "scale": [ 1.5, 1.5, 1.5 ]
+    },
+    "wallRight": {
+      "filename": "new/wallRight_model.glb",
+      "pos": [ 58, 14, 8 ],
+      "angles": [ 0, 270, 0 ],
+      "scale": [ 1.5, 1.5, 1.5 ]
+    },
+    "wallFront": {
+      "filename": "new/wallFront_model.glb",
+      "pos": [ 58, 14, 8 ],
+      "angles": [ 0, 270, 0 ],
+      "scale": [ 1.5, 1.5, 1.5 ]
+    },
+    "wallLeft": {
+      "filename": "new/wallLeft_model.glb",
+      "pos": [ 58, 14, 8 ],
+      "angles": [ 0, 270, 0 ],
+      "scale": [ 1.5, 1.5, 1.5 ]
+    },
+    "tower01": {
+      "filename": "new/tower01_model.glb",
+      "pos": [ 58, 14, 8 ],
+      "angles": [ 0, 270, 0 ],
+      "scale": [ 1.5, 1.5, 1.5 ]
+    },
+    "tower02": {
+      "filename": "new/tower02_model.glb",
+      "pos": [ 58, 14, 8 ],
+      "angles": [ 0, 270, 0 ],
+      "scale": [ 1.5, 1.5, 1.5 ]
+    },
+    "tower03": {
+      "filename": "new/tower03_model.glb",
+      "pos": [ 58, 14, 8 ],
+      "angles": [ 0, 270, 0 ],
+      "scale": [ 1.5, 1.5, 1.5 ]
+    },
+    "bigTower": {
+      "filename": "new/bigTower_centered_model.glb",
+      "pos": [ 88.7, 19.4, -13.7 ],
+      "angles": [ 0, 270, 0 ],
+      "scale": [ 1.5, 1.5, 1.5 ]
+    },
+    "castleEntrance": {
+      "filename": "new/castleEntrance_model.glb",
+      "pos": [ 58, 14, 8 ],
+      "angles": [ 0, 270, 0 ],
+      "scale": [ 1.5, 1.5, 1.5 ]
+    },
+    "castleTerrace": {
+      "filename": "new/castleTerrace_model.glb",
+      "pos": [ 58, 14, 8 ],
+      "angles": [ 0, 270, 0 ],
+      "scale": [ 1.5, 1.5, 1.5 ]
+    },
+    "castleHouse": {
+      "filename": "new/house_model.glb",
+      "pos": [ 58, 14, 8 ],
+      "angles": [ 0, 270, 0 ],
+      "scale": [ 1.5, 1.5, 1.5 ]
+    },
+    "painting01": {
+      "filename": "new/painting01_model.glb",
+      "pos": [ 70, 21.8, -3.3 ],
+      "angles": [ 0, 180, 0 ],
+      "scale": [ 1.0, 1.0, 1.0 ]
+    },
+    "painting02": {
+      "filename": "new/painting02_model.glb",
+      "pos": [ 76, 21.8, -3.3 ],
+      "angles": [ 0, 180, 0 ],
+      "scale": [ 1.0, 1.0, 1.0 ]
+    },
+    "painting03": {
+      "filename": "new/painting03_model.glb",
+      "pos": [ 70, 21.8, -20.3 ],
+      "angles": [ 0, 0, 0 ],
+      "scale": [ 1.0, 1.0, 1.0 ]
+    },
+    "painting04": {
+      "filename": "new/painting04_model.glb",
+      "pos": [ 76, 21.8, -20.2 ],
+      "angles": [ 0, 0, 0 ],
+      "scale": [ 1.0, 1.0, 1.0 ]
+    },
+    "puzzleDoor": {
+      "filename": "new/puzzleDoor_model.glb",
+      "pos": [ 81.75, 21, -12.6 ],
+      "angles": [ 0, 0, 0 ],
+      "scale": [ 1.5, 1.5, 1.5 ]
+    },
+    "puzzleWheel1": {
+      "filename": "new/puzzleLockWheel_model.glb",
+      "pos": [81.8, 21.45, -18.7 ],
+      "angles": [ 0, 270, 0 ],
+      "scale": [ 1.5, 1.5, 1.5 ]
+    },
+    "puzzleWheel2": {
+      "filename": "new/puzzleLockWheel_model.glb",
+      "pos": [81.8, 21.45, -19.0 ],
+      "angles": [ 0, 270, 0 ],
+      "scale": [ 1.5, 1.5, 1.5 ]
+    },
+    "puzzleWheel3": {
+      "filename": "new/puzzleLockWheel_model.glb",
+      "pos": [81.8, 21.45, -19.3 ],
+      "angles": [ 0, 270, 0 ],
+      "scale": [ 1.5, 1.5, 1.5 ]
+    },
+    "puzzleWheel4": {
+      "filename": "new/puzzleLockWheel_model.glb",
+      "pos": [81.8, 21.45, -19.6 ],
+      "angles": [ 0, 270, 0 ],
+      "scale": [ 1.5, 1.5, 1.5 ]
+    },
+    "coin": {
+      "filename": "new/coin_model.glb",
+      "pos": [ 90, 47.2, -11 ],
+      "angles": [ 90, 0, 90 ],
+      "scale": [ 0.5, 0.5, 0.5 ],
+      "portable": true,
+      "throwable": false
+    },
+    "coin2": {
+      "filename": "new/coin_model.glb",
+      "pos": [ 15.12, 18, 7.32 ],
+      "angles": [ 90, 0, 90 ],
+      "scale": [ 0.5, 0.5, 0.5 ],
+      "portable": true,
+      "throwable": false
+    },
+    "flag1": {
+      "filename": "new/animatedFlag.glb",
+      "pos": [ 48.5, 25, -22 ],
+      "angles": [ 0, 270, 0 ],
+      "scale": [ 1.5, 1.5, 1.5 ]
+    },
+    "flag2": {
+      "filename": "new/animatedFlag.glb",
+      "pos": [ 48, 25, 37 ],
+      "angles": [ 0, 270, 0 ],
+      "scale": [ 1.5, 1.5, 1.5 ]
+    },
+    "bridgetest": {
+      "filename": "bridge.gltf",
+      "pos": [ 42, 14.2, 7 ],
+      "angles": [ 0, 0, 0 ],
+      "scale": [ 1, 1, 1 ]
+    },
+    "stand": {
+      "filename": "new/stand_model.glb",
+      "pos": [ 58, 14, 8 ],
+      "angles": [ 0, 270, 0 ],
+      "scale": [ 1.5, 1.5, 1.5 ]
+    },
+    "drawbridge": {
+      "filename": "new/drawbridge_model.glb",
+      "pos": [ 41.8, 14.25, 7 ],
+      "angles": [ -90, 0, -90 ],
+      "scale": [ 1.5, 1.5, 1.5 ],
+      "text": "A stout drawbrige."
+    },
+    "lever": {
+      "filename": "new/lever_model.glb",
+      "pos": [ 46.1, 15, 2.45 ],
+      "angles": [ 0, 270, 0 ],
+      "scale": [ 1.5, 1.5, 1.5 ],
+      "text": "That lever might do something. Hmmm."
+    },
+    "leverBase": {
+      "filename": "new/lever_base_model.glb",
+      "pos": [ 58, 14, 8 ],
+      "angles": [ 0, 270, 0 ],
+      "scale": [ 1.5, 1.5, 1.5 ]
+    },
+    "maze": {
+      "filename": "new/maze_model.glb",
+      "pos": [ 58, 14, 8 ],
+      "angles": [ 0, 270, 0 ],
+      "scale": [ 1.5, 1.5, 1.5 ]
+    },
+    "mazeButton": {
+      "filename": "new/mazeButton_model.glb",
+      "pos": [ 58, 14, 8 ],
+      "angles": [ 0, 270, 0 ],
+      "scale": [ 1.5, 1.5, 1.5 ],
+      "text": "This little guy looks kind of hungry."
+    },
+    "mazeDoor1": {
+      "filename": "new/mazeDoor1_model.glb",
+      "pos": [ 58, 14, 8 ],
+      "angles": [ 0, 270, 0 ],
+      "scale": [ 1.5, 1.5, 1.5 ]
+    },
+    "mazeDoor2": {
+      "filename": "new/mazeDoor2_model.glb",
+      "pos": [ 58, 14, 8 ],
+      "angles": [ 0, 270, 0 ],
+      "scale": [ 1.5, 1.5, 1.5 ]
+    },
+    "turret": {
+      "filename": "new/turretTower_model.glb",
+      "pos": [ 89.5, 6, 24 ],
+      "angles": [ 0, 150, 0 ],
+      "scale": [ 1.5, 1.5, 1.5 ],
+      "text": "It's a tiny, dead-end tower."
+    },
+    "lever2": {
+      "filename": "new/lever_model.glb",
+      "pos": [ 87, 14.1, 28 ],
+      "angles": [ 0, 270, 0 ],
+      "scale": [ 1.5, 1.5, 1.5 ],
+      "text": "It looks like a slot machine handle."
+    },
+    "jumpRamp": {
+      "filename": "jumpRamp.gltf",
+      "pos": [ 22, 0, -35 ],
+      "angles": [ 0, 180, 0 ],
+      "scale": [ 1, 1, 1 ]
+    },
+    "ramp": {
+      "filename": "ramp.gltf",
+      "pos": [ 10, -0.1, 7 ],
+      "angles": [ 0, 180, 0 ],
+      "scale": [ 1, 1, 1 ]
+    },
+    "carrot1": {
+      "filename": "new/carrot_model.glb",
+      "pos": [ 60.5, 14.4, -10 ],
+      "angles": [ 0, 15, 0 ],
+      "scale": [ 0.5, 0.5, 0.5 ],
+      "throwable": false,
+      "portable": true
+    },
+    "carrot2": {
+      "filename": "new/carrot_model.glb",
+      "pos": [ 60.3, 14.4, -9 ],
+      "angles": [ 0, 0, 0 ],
+      "scale": [ 0.6, 0.6, 0.6 ],
+      "portable": true,
+      "throwable": false
+    },
+    "testbunny": {
+      "filename": "animals/Low_Rabbit_v01.gltf",
+      "pos": [ 72.35, 14.2, 17.9 ],
+      "angles": [ 0, 180, 0 ],
+      "scale": [ 1.8, 1.8, 1.8 ]
+    },
+    "rock1": {
+      "filename": "rock1.gltf",
+      "pos": [ 27.3, 14.4, 2.2 ],
+      "angles": [ 0, 150, 0 ],
+      "scale": [ 0.25, 0.25, 0.25],
+      "throwable": true,
+      "rigidbody": true,
+      "physics": {
+        "mass": 1,
+        "bounciness": 0.4,
+        "velocity": [0, 0, 0]
+      }
+    },
+    "rock2": {
+      "filename": "rock1.gltf",
+      "pos": [ 27.6, 14.5, 2.4 ],
+      "angles": [ 0, 30, 0 ],
+      "scale": [ 0.35, 0.35, 0.35],
+      "throwable": true,
+      "rigidbody": true,
+      "physics": {
+        "mass": 1.5,
+        "bounciness": 0.4,
+        "velocity": [0, 0, 0]
+      }
+    },
+    "rock3": {
+      "filename": "rock1.gltf",
+      "pos": [ 26, 14.5, 2 ],
+      "angles": [ 0, 0, 0 ],
+      "scale": [  0.3, 0.3, 0.3 ],
+      "throwable": true,
+      "rigidbody": true,
+      "physics": {
+        "mass": 1.2,
+        "bounciness": 0.4,
+        "velocity": [0, 0, 0]
+      }
+    },
+    "rock4": {
+      "filename": "rock1.gltf",
+      "pos": [ 24.3, 14.8, 6.4 ],
+      "angles": [ 0, 0, 0 ],
+      "scale": [  0.3, 0.3, 0.3 ],
+      "throwable": true,
+      "rigidbody": true,
+      "physics": {
+        "mass": 1.2,
+        "bounciness": 0.4,
+        "velocity": [0, 0, 0]
+      }
+    },
+    "rock5": {
+      "filename": "rock1.gltf",
+      "pos": [ 24.5, 15, 6 ],
+      "angles": [ 0, 0, 0 ],
+      "scale": [  0.25, 0.25, 0.25 ],
+      "throwable": true,
+      "rigidbody": true,
+      "physics": {
+        "mass": 1.2,
+        "bounciness": 0.4,
+        "velocity": [0, 0, 0]
+      }
+    },
+    "rock6": {
+      "filename": "rock1.gltf",
+      "pos": [ 27, 14.5, 8.1 ],
+      "angles": [ 0, 0, 0 ],
+      "scale": [  0.25, 0.25, 0.25 ],
+      "throwable": true,
+      "rigidbody": true,
+      "physics": {
+        "mass": 1.2,
+        "bounciness": 0.4,
+        "velocity": [0, 0, 0]
+      }
+    },
+    "ground01": {
+      "filename": "groundPlane2.gltf",
+      "pos": [ 16, 0, -32 ],
+      "angles": [ 0, 0, 0 ],
+      "scale": [ 2, 1, 2 ]
+    },
+    "ground02": {
+      "filename": "groundPlane2.gltf",
+      "pos": [ 16, 0, 0 ],
+      "angles": [ 0, 0, 0 ],
+      "scale": [ 2, 1, 2 ]
+    },
+    "ground03": {
+      "filename": "groundPlane2.gltf",
+      "pos": [ 16, 0, 32 ],
+      "angles": [ 0, 0, 0 ],
+      "scale": [ 2, 1, 2 ]
+    },
+    "ground04": {
+      "filename": "groundPlane2.gltf",
+      "pos": [ 16, 0, 64 ],
+      "angles": [ 0, 0, 0 ],
+      "scale": [ 2, 1, 2 ]
+    },
+    "ground11": {
+      "filename": "groundPlane2.gltf",
+      "pos": [ 48, 0, -32 ],
+      "angles": [ 0, 0, 0 ],
+      "scale": [ 2, 1, 2 ]
+    },
+    "ground12": {
+      "filename": "groundPlane2.gltf",
+      "pos": [ 48, 0, 0 ],
+      "angles": [ 0, 0, 0 ],
+      "scale": [ 2, 1, 2 ]
+    },
+    "ground13": {
+      "filename": "groundPlane2.gltf",
+      "pos": [ 48, 0, 32 ],
+      "angles": [ 0, 0, 0 ],
+      "scale": [ 2, 1, 2 ]
+    },
+    "ground14": {
+      "filename": "groundPlane2.gltf",
+      "pos": [ 48, 0, 64 ],
+      "angles": [ 0, 0, 0 ],
+      "scale": [ 2, 1, 2 ]
+    },
+    "ground21": {
+      "filename": "groundPlane2.gltf",
+      "pos": [ 80, 0, -32 ],
+      "angles": [ 0, 0, 0 ],
+      "scale": [ 2, 1, 2 ]
+    },
+    "ground22": {
+      "filename": "groundPlane2.gltf",
+      "pos": [ 80, 0, 0 ],
+      "angles": [ 0, 0, 0 ],
+      "scale": [ 2, 1, 2 ]
+    },
+    "ground23": {
+      "filename": "groundPlane2.gltf",
+      "pos": [ 80, 0, 32 ],
+      "angles": [ 0, 0, 0 ],
+      "scale": [ 2, 1, 2 ]
+    },
+    "ground24": {
+      "filename": "groundPlane2.gltf",
+      "pos": [ 80, 0, 64 ],
+      "angles": [ 0, 0, 0 ],
+      "scale": [ 2, 1, 2 ]
+    },
+    "ground31": {
+      "filename": "groundPlane2.gltf",
+      "pos": [ 104, 0, -32 ],
+      "angles": [ 0, 0, 0 ],
+      "scale": [ 1, 1, 2 ]
+    },
+    "ground32": {
+      "filename": "groundPlane2.gltf",
+      "pos": [ 104, 0, 0 ],
+      "angles": [ 0, 0, 0 ],
+      "scale": [ 1, 1, 2 ]
+    },
+    "ground33": {
+      "filename": "groundPlane2.gltf",
+      "pos": [ 104, 0, 32 ],
+      "angles": [ 0, 0, 0 ],
+      "scale": [ 1, 1, 2 ]
+    },
+    "ground34": {
+      "filename": "groundPlane2.gltf",
+      "pos": [ 104, 0, 64 ],
+      "angles": [ 0, 0, 0 ],
+      "scale": [ 1, 1, 2 ]
+    }
+  }
+}
