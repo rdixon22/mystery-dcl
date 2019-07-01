@@ -11,6 +11,7 @@
 */
 import { CubeCollider } from './cubecollider';
 import { AABB } from './aabb';
+import { Ray } from './ray';
 
 @Component("RigidBody")
 export class RigidBody {
@@ -174,6 +175,41 @@ export class RigidBody {
   // Calculate the bounce velocity vector
   // NOTE: This needs a lot more testing. It's acting weird in quite a few cases.
   bounceOffCube(dt, normal:Vector3, aabb:AABB)
+  {
+      // Create a ray from the last point before we entered the box, to the next point inside or beyond the box
+      let ray:Ray = new Ray(this.trans.position, this.newPosition);
+      let t:number = ray.intersectsBox(aabb);
+      if (t == -1) return; // ray does not intersect -- something is wrong
+
+      // Get the point where it first hits the box
+      let hitPoint:Vector3 = ray.getPoint(t);
+      // Figure out the face normal at that point
+      let faceNormal:Vector3 = aabb.getFaceNormal(hitPoint);
+
+      let fullDist:float = ray.getDistance();
+      let travelDist:float = Vector3.Distance(this.trans.position, hitPoint);
+      let travelPct:float = travelDist / fullDist;
+      let bouncePct:float = 1 - travelPct;
+  
+      let projection:float = -2 * Vector3.Dot(this.velocity, faceNormal);
+      
+      let newVel:Vector3 = faceNormal.multiplyByFloats(projection, projection, projection);
+      newVel = newVel.add(this.velocity);
+      // the bounce slows it down
+      newVel = newVel.multiplyByFloats(this.bounciness, this.bounciness, this.bounciness);
+      
+      // put it at a spot near where it first hit the cube (this is not exact right now -- should use a ray)
+      this.newPosition = hitPoint;
+      log(this.newPosition);
+      
+      this.bounceCount++;
+      // velocity for next frame
+      this.velocity = newVel;
+  }
+
+  // Calculate the bounce velocity vector
+  // NOTE: This needs a lot more testing. It's acting weird in quite a few cases.
+  bounceOffCubeOld(dt, normal:Vector3, aabb:AABB)
   {
       let fullDist:float = Math.abs(this.trans.position.y - this.newPosition.y);
       let groundDist:float = Math.abs(this.trans.position.y - this.groundY);

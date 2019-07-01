@@ -12,7 +12,7 @@
       "pos": [ 60, 14, 8 ],
       "angles": [ 0, 270, 0 ],
       "scale": [ 1.5, 1.5, 1.5 ],
-      "text": "An ancient stone altar.\nA faint inscription says:\nLeporine King, in ancient days\nRewarded knights both good and kind\nFulfill a quest, O noble soul\nA token treasure you will find"
+      "text": "A weathered stone altar.\nA faint inscription says:\nLeporine King, in ancient days\nRewarded knights both good and kind\nFulfill a quest, O noble soul\nA token treasure shall you find"
     },
     "altarButton": {
       "filename": "new/altarButton_model.glb",

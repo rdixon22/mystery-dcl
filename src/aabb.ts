@@ -1,3 +1,4 @@
+import { Ray } from './ray';
 /**
  * A simple Axis Aligned Bounding Box (AABB) class
  */
@@ -7,6 +8,10 @@ export class AABB
     public center:Vector3;
     public min:Vector3;
     public max:Vector3;
+
+    // collisions
+    public hitPoint:Vector3;
+    public hitFaceNormal:Vector3;
 
     constructor(_center:Vector3, _fullSize:Vector3)
     {
@@ -112,30 +117,72 @@ export class AABB
 
     getFaceNormal(point:Vector3):Vector3
     {
-        if (point.y >= this.max.y)
+        if (point.y == this.max.y)
         {
             return Vector3.Up();
         }
-        else if(point.z >= this.max.z)
+        else if(point.z == this.max.z)
         {
             return Vector3.Forward();  //forward
         }
-        else if(point.x >= this.max.x)
+        else if(point.x == this.max.x)
         {
             return Vector3.Right();  // right
         }
-        else if(point.z <= this.min.z)
+        else if(point.z == this.min.z)
         {
             return Vector3.Backward();  // backward
         }
-        else if(point.x <= this.min.x)
+        else if(point.x == this.min.x)
         {
             return Vector3.Left();  // left
         }
-        else if(point.y <= this.min.y)
+        else if(point.y == this.min.y)
         {
             return Vector3.Down();
         }
+        // it does not describe a point directly on a face
+        return Vector3.Zero();
+    }
+
+    raycast(ray:Ray)
+    {
+        // NOTE: Any component of direction could be 0!
+        // to avoid a division by 0, you need to add 
+        // additional safety checks.
+        let t1:number = (this.min.x - ray.origin.x) / Math.max(ray.direction.x, 0.001);
+        let t2:number = (this.max.x - ray.origin.x) / Math.max(ray.direction.x, 0.001);
+        let t3:number = (this.min.y - ray.origin.y) / Math.max(ray.direction.y, 0.001);
+        let t4:number = (this.max.y - ray.origin.y) / Math.max(ray.direction.y, 0.001);
+        let t5:number = (this.min.z - ray.origin.z) / Math.max(ray.direction.z, 0.001);
+        let t6:number = (this.max.z - ray.origin.z) / Math.max(ray.direction.z, 0.001);
+
+        let tmin:number = Math.max(
+            Math.min(t1, t2), 
+            Math.min(t3, t4),
+            Math.min(t5, t6)
+        );
+
+        let tmax:number = Math.min(
+            Math.max(t1, t2), 
+            Math.max(t3, t4),
+            Math.max(t5, t6)
+        );
+    
+        if (tmax < 0) 
+        {
+            // ray would intersect, but it is pointing away from the box
+            return false;
+        }
+        if (tmin > tmax) {
+            // no intersection at all
+            return false;
+        }
+
+        // if tmin < 0, the origin is inside the box, so tmax is the right intersection point (indside collision pointing out)
+        // otherwise, it's tmin
+        this.hitPoint = ray.getPoint( tmin >= 0 ? tmin : tmax );
+        //this.hitFaceNormal = ?;
     }
 
     logData()

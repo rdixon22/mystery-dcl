@@ -53,6 +53,7 @@ export class Rotatable3 {
       this.entity.addComponentOrReplace(
         new OnClick(() => {
           log("clicked on Rotatable object, isAtTarget=" + this.isAtTarget + "; rot=" + this.trans.rotation + " (" + this.trans.rotation.eulerAngles + ")");
+          // TODO: don't rotate by default (because we have to override the OnClick method to defeat this)
           this.toggleRotation();
         })
     )
@@ -79,7 +80,7 @@ export class Rotatable3 {
   {
       this.startRotation = this.trans.rotation;
       this.endRotation = nextRot;
-      log("start=" + this.startRotation + ", end=" + this.endRotation);
+      //log("start=" + this.startRotation + ", end=" + this.endRotation);
       this.elapsed = 0;
       this.fraction = 0;
       this.isAnimating = true;
@@ -115,13 +116,6 @@ export class Rotatable3 {
             this.endRotation,
             this.fraction
         )
-        // let euler:Vector3 = newRot.eulerAngles;
-        // if (this.restrictX) euler.x = 0;
-        // if (this.restrictY) euler.y = 0;
-        // if (this.restrictZ) euler.z = 0;
-        // newRot = Quaternion.Euler(euler.x, euler.y, euler.z);
-        
-        //newRot = Quaternion.Euler(0, 0, newRot.eulerAngles.z);
     }
     this.trans.rotation = newRot;
   }

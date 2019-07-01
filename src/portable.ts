@@ -87,7 +87,7 @@ export class Portable {
     //if (dropPos.y > 0.265)
     //{
       // we are probably on top of something: account for inaccuracy of camera position
-      dropPos.y += 0.95;
+      dropPos.y -= 1.35;
     //}
     //else
     //{
@@ -138,7 +138,7 @@ export class Portable {
   {
     let newPos:Vector3 = Camera.instance.position.clone().add(this.getForwardVector());
     // adjust for y inaccuracies in camera pos
-    newPos.y = Camera.instance.position.y + 2.3;
+    newPos.y = Camera.instance.position.y - 0.1;
 
     // let's try smoothing this out...
     let lerpSpeed:number = 10;
