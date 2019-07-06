@@ -124,9 +124,6 @@ export class RigidBody {
         //log(bounceNormal);
         if (bounceNormal != undefined)
         {
-          //log("surfacePoint=");
-          //log(cc.getClosestPoint(this.trans.position));
-          // note the following breaks if the position was already inside the box last frame
           this.bounceOffCube(dt, bounceNormal, cc.aabb);
           // only handle one bounce per frame
           break;
@@ -173,7 +170,6 @@ export class RigidBody {
   }
 
   // Calculate the bounce velocity vector
-  // NOTE: This needs a lot more testing. It's acting weird in quite a few cases.
   bounceOffCube(dt, normal:Vector3, aabb:AABB)
   {
       // Create a ray from the last point before we entered the box, to the next point inside or beyond the box
@@ -186,81 +182,24 @@ export class RigidBody {
       // Figure out the face normal at that point
       let faceNormal:Vector3 = aabb.getFaceNormal(hitPoint);
 
-      let fullDist:float = ray.getDistance();
-      let travelDist:float = Vector3.Distance(this.trans.position, hitPoint);
-      let travelPct:float = travelDist / fullDist;
-      let bouncePct:float = 1 - travelPct;
+      log("pos=" + this.trans.position + "\nhit=" + hitPoint + "\nnew=" + this.newPosition);
+    
+      // let fullDist:float = ray.getDistance();
+      // let travelDist:float = Vector3.Distance(this.trans.position, hitPoint);
+      // let travelPct:float = travelDist / fullDist;
+      // let bounceVel:float = 1 - travelPct;
   
-      let projection:float = -2 * Vector3.Dot(this.velocity, faceNormal);
-      
+      // get bounce angle
+      let projection:float = -2 * Vector3.Dot(this.velocity, faceNormal); 
       let newVel:Vector3 = faceNormal.multiplyByFloats(projection, projection, projection);
       newVel = newVel.add(this.velocity);
       // the bounce slows it down
       newVel = newVel.multiplyByFloats(this.bounciness, this.bounciness, this.bounciness);
-      
-      // put it at a spot near where it first hit the cube (this is not exact right now -- should use a ray)
-      this.newPosition = hitPoint;
-      log(this.newPosition);
-      
-      this.bounceCount++;
-      // velocity for next frame
-      this.velocity = newVel;
-  }
 
-  // Calculate the bounce velocity vector
-  // NOTE: This needs a lot more testing. It's acting weird in quite a few cases.
-  bounceOffCubeOld(dt, normal:Vector3, aabb:AABB)
-  {
-      let fullDist:float = Math.abs(this.trans.position.y - this.newPosition.y);
-      let groundDist:float = Math.abs(this.trans.position.y - this.groundY);
-      let groundPct:float = groundDist / fullDist;
-      let bouncePct:float = 1 - groundPct;
-  
-      let groundNormal:Vector3 = Vector3.Up();
-      // no time to finish angle calculations; just send it straight back
-      let newVel:Vector3 = normal.multiplyByFloats(this.bounciness, this.bounciness, this.bounciness).multiply(this.velocity);
-      // put it at a spot near where it first hit the cube (this is not exact right now -- should use a ray)
-      if (normal.x > 0)
-      {
-        this.newPosition.x = aabb.max.x;
-      }
-      if (normal.y > 0) {
-        // we hit the top
-        this.newPosition.y = aabb.max.y;
-      }
-      if (normal.z > 0)
-      {
-        this.newPosition.z = aabb.max.z;
-      }
-      if (normal.x < 0)
-      {
-        this.newPosition.x = aabb.min.x;
-      }
-      if (normal.y < 0) {
-        // we hit the top
-        this.newPosition.y = aabb.min.y;
-      }
-      if (normal.z < 0)
-      {
-        this.newPosition.z = aabb.min.z;
-      }
-      //log("newPos=");
-      log(this.newPosition);
+      // put it the spot where it first hit the cube (note we are losing the rebound pct of this frame)
+      this.newPosition = hitPoint;
+      log("newPos=" + this.newPosition + "\nnormal=" + faceNormal);
       
-      // let projection:float = -2 * Vector3.Dot(this.velocity, groundNormal);
-      // let newVel:Vector3 = normal.multiplyByFloats(projection, projection, projection);
-      // newVel = newVel.add(this.velocity);
-      // newVel = newVel.multiplyByFloats(this.bounciness, this.bounciness, this.bounciness);
-  
-      // if (fullDist > 0.0001)
-      // {
-      //   let bounceTime = bouncePct * dt * this.friction;
-      //   let bounceVel = newVel.multiplyByFloats(bounceTime, bounceTime, bounceTime);
-      //   //log("oldVel=" + this.velocity + "; bounceVel=" + newVel + "; proj=" + projection + "; bt=" + bouncePct);
-    
-      //   this.newPosition = this.newPosition.add(bounceVel);
-      //   this.bounceCount++;
-      // }
       this.bounceCount++;
       // velocity for next frame
       this.velocity = newVel;
