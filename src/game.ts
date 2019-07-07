@@ -70,6 +70,25 @@ function spawnRock(x: number, y: number, z: number, scaleX: number = 1, scaleY: 
   rock.addComponent(new Portable(rock, true, startVel));
 }
 
+function spawnCubeCollider(_pos:Vector3, _scale:Vector3, _visible:boolean = true) 
+{
+  const cube = new Entity();
+  let ccTrans = new Transform({ position: _pos, scale: _scale });
+  cube.addComponent(ccTrans);
+  // don't add the shape if you want it invisible
+  if (_visible)
+  {
+    cube.addComponent(new BoxShape());
+  }
+  engine.addEntity(cube);
+
+  let cc:CubeCollider = new CubeCollider(cube, ccTrans.position, ccTrans.scale);
+  cc.onCollision = logCollision;
+  cube.addComponent(cc);
+  addCollider(cc);
+  return cube;
+}
+
 function addCollider(collider:CubeCollider)
 {
   log(collider);
@@ -81,7 +100,6 @@ function addCollider(collider:CubeCollider)
   {
     RigidBody.colliders.push(collider);
   }
-  
 }
 
 // -- UI ---
@@ -93,30 +111,23 @@ displayTxt.value = 'Tired and thirsty from a long desert hike,\nyou see a strang
 //text.value = 'One steps forward\nTwo step back\nTrue steps reveal\nAn inside track'
 
 // TEST CUBE COLLIDERS
-let aabb = new AABB(new Vector3(1,1,1), new Vector3(2,2,2));
-aabb.logData();
+// let aabb = new AABB(new Vector3(1,1,1), new Vector3(2,2,2));
+// aabb.logData();
 
-let p1 = new Vector3(3, 1, 1);
-testBox(aabb, p1, 1);
-let p2 = new Vector3(1, 1, 1.1);
-testBox(aabb, p2, 2);
-let p3 = new Vector3(0.1, 0.2, 0.3);
-testBox(aabb, p3, 3);
-let p4 = new Vector3(1.7, 1.8, 1.9);
-testBox(aabb, p4, 4);
+// let p1 = new Vector3(3, 1, 1);
+// testBox(aabb, p1, 1);
+// let p2 = new Vector3(1, 1, 1.1);
+// testBox(aabb, p2, 2);
+// let p3 = new Vector3(0.1, 0.2, 0.3);
+// testBox(aabb, p3, 3);
+// let p4 = new Vector3(1.7, 1.8, 1.9);
+// testBox(aabb, p4, 4);
 
 // load hillside colliders
-const hillCollider1 = new Entity();
-let hc1Trans = new Transform({ position: new Vector3(52, 7.5, 6), scale: new Vector3(20, 15, 73) });
-hillCollider1.addComponent(hc1Trans);
-// don't add the shape if you want it invisible
-//hillCollider1.addComponent(new BoxShape());
-engine.addEntity(hillCollider1);
-let hcc:CubeCollider = new CubeCollider(hillCollider1, hc1Trans.position, hc1Trans.scale);
-hcc.onCollision = logCollision;
-hillCollider1.addComponent(hcc);
-addCollider(hcc);
-
+const hillCollider1 = spawnCubeCollider(new Vector3(70, 7, 7), new Vector3(56, 14, 75));
+const hillCollider2 = spawnCubeCollider(new Vector3(10, 8.4, 7), new Vector3(19, 16.8, 18));
+const hillCollider3 = spawnCubeCollider(new Vector3(25, 7, 7), new Vector3(11, 14, 18));
+const hillCollider4 = spawnCubeCollider(new Vector3(13, 2, 22), new Vector3(8, 4, 32));
 // const hillCollider2 = new Entity();
 // let hc2Trans = new Transform({ position: new Vector3(17, 10, 7), scale: new Vector3(32, 20, 20) });
 // hillCollider2.addComponent(hc2Trans);
@@ -487,20 +498,25 @@ function loadStructures()
     })
   )
 
+  let bridgeCollider:CubeCollider = loadCastleColliders();
+
   let leverHit:boolean = false;
   const lever = loader.spawnSceneObject(som.scene.lever);
   let leverRotator = new Rotatable3(lever, new Vector3(-30, 0, 0), 2, 2);
   lever.addComponent(leverRotator);
-  let leverCollider:CubeCollider = new CubeCollider(lever, new Vector3(48.5, 15.5, 2.5), new Vector3(6, 4, 2));
+  let leverBox = spawnCubeCollider(new Vector3(47.5, 15.5, 2.5), new Vector3(4, 4, 2));
+  let leverCollider = leverBox.getComponent(CubeCollider);
+  //let leverCollider:CubeCollider = new CubeCollider(lever, new Vector3(48.5, 15.5, 2.5), new Vector3(6, 4, 2));
   let logLeverHit = () => {
     log("LEVER WAS HIT!");
     leverRotator.toggleRotation();
     bridgeRotator.toggleRotation();
     leverHit = true;
     displayTxt.value = "";
+    bridgeCollider.enabled = false;
   }
   leverCollider.onCollision = logLeverHit;
-  lever.addComponent(leverCollider);
+  //lever.addComponent(leverCollider);
   addCollider(leverCollider);
   lever.addComponentOrReplace(
     new OnClick(() => {
@@ -517,8 +533,6 @@ function loadStructures()
       }
     })
   )
-
-  loadCastleColliders();
 
   // --- GALLERY PUZZLE ---
   const painting01 = loader.spawnSceneObject(som.scene.painting01);
@@ -599,31 +613,13 @@ function loadStructures()
   loadAnimals();
 }
 
-function loadCastleColliders()
+function loadCastleColliders():CubeCollider
 {
-  const cube2 = new Entity();
-  let cubeTrans2 = new Transform({ position: new Vector3(50, 20, 23.5), scale: new Vector3(6, 10, 40) });
-  cube2.addComponent(cubeTrans2);
-  //cube2.addComponent(new BoxShape());
-  engine.addEntity(cube2);
-  let cc2:CubeCollider = new CubeCollider(cube2, cubeTrans2.position, cubeTrans2.scale);
-  //testBox(cc2.aabb, cubeTrans2.position.add(Vector3.One()), 99);
-  cc2.onCollision = logCollision;
-  cube2.addComponent(cc2);
-  //log("colliders=" + RigidBody.colliders);
-  addCollider(cc2);
+  const cube2 = spawnCubeCollider(new Vector3(49, 19, 23.5), new Vector3(6, 10, 40));
+  const cube3 = spawnCubeCollider(new Vector3(49, 19, -18.5), new Vector3(6, 10, 40));
 
-  const cube3 = new Entity();
-  let cubeTrans3 = new Transform({ position: new Vector3(50, 20, -18.5), scale: new Vector3(6, 10, 40) });
-  cube3.addComponent(cubeTrans3);
-  //cube3.addComponent(new BoxShape());
-  engine.addEntity(cube3);
-  let cc3:CubeCollider = new CubeCollider(cube3, cubeTrans3.position, cubeTrans3.scale);
-  //testBox(cc3.aabb, cubeTrans3.position.add(Vector3.One()), 99);
-  cc3.onCollision = logCollision;
-  cube3.addComponent(cc3);
-  //log("colliders=" + RigidBody.colliders);
-  addCollider(cc3);
+  let bridgeBox = spawnCubeCollider(new Vector3(42.5, 18.5, 7), new Vector3(1.5, 11, 5));
+  return bridgeBox.getComponent(CubeCollider);
 }
 
 function loadAnimals()

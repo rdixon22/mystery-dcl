@@ -4,12 +4,16 @@ export class Ray
 {
     public origin:Vector3;
     public direction:Vector3;
+    public endPoint:Vector3;
+    public distance:number;
     public normDirection:Vector3;
 
-    constructor(_origin:Vector3, _direction:Vector3)
+    constructor(_origin:Vector3, _endPoint:Vector3)
     {
         this.origin = _origin;
-        this.direction = _direction;
+        this.endPoint = _endPoint;
+        this.direction = _endPoint.subtract(_origin);
+        this.distance = Vector3.Distance(this.origin, this.endPoint);
         this.normalize();
     }
 
@@ -17,17 +21,14 @@ export class Ray
     {
         if (this.direction != undefined)
         {
+            //let rawDirection = this.direction.subtract(this.origin);
             this.normDirection = Vector3.Normalize(this.direction);
+            //log("orig=" + this.origin + ", dir=" + this.direction + ", raw=" + rawDirection + ", norm=" + this.normDirection);
         }
         else
         {
             this.normDirection = Vector3.Up();
         }
-    }
-
-    getDistance()
-    {
-        return Vector3.Distance(this.origin, this.direction);
     }
 
     getPoint(dist:number)
@@ -38,6 +39,11 @@ export class Ray
             this.normalize();
         }
         return this.normDirection.multiplyByFloats(dist, dist, dist).add(this.origin);
+    }
+
+    getEndpoint()
+    {
+        return this.origin.add(this.direction);
     }
 
     intersectsPlane(plane:Plane) 
@@ -57,16 +63,34 @@ export class Ray
 		// ray origin is behind the plane (and is pointing behind it)
 		return false;
     }
+
+    intersectsBox(box:AABB):number
+    {
+        let t:number = this.intersectsBoxNormalized(box);
+        //log("intersectsBox(), t=" + t + ", dist=" + this.distance);
+        if (t <= this.distance)
+        {
+            return t;
+        }
+        else
+        {
+            return -1;
+        }
+    }
     
-    // Check if the ray intersects an AABB box, and if so return ti distance along the ray where it first hits
-    intersectsBox(box:AABB) 
+    // Check if the ray intersects an AABB box, and if so return the distance along the ray where it first hits
+    intersectsBoxNormalized(box:AABB):number
     {  
-        let t1:number = (box.min.x - this.origin.x) / Math.max(this.normDirection.x, 0.0001);
-        let t2:number = (box.max.x - this.origin.x) / Math.max(this.normDirection.x, 0.0001);
-        let t3:number = (box.min.y - this.origin.y) / Math.max(this.normDirection.y, 0.0001);
-        let t4:number = (box.max.y - this.origin.y) / Math.max(this.normDirection.y, 0.0001);
-        let t5:number = (box.min.z - this.origin.z) / Math.max(this.normDirection.z, 0.0001);
-        let t6:number = (box.max.z - this.origin.z) / Math.max(this.normDirection.z, 0.0001);
+        let normX = this.normDirection.x == 0 ? 0.0001 : this.normDirection.x;
+        let normY = this.normDirection.y == 0 ? 0.0001 : this.normDirection.y;
+        let normZ = this.normDirection.z == 0 ? 0.0001 : this.normDirection.z;
+
+        let t1:number = (box.min.x - this.origin.x) / normX; // Math.max(this.normDirection.x, 0.0001)
+        let t2:number = (box.max.x - this.origin.x) / normX;
+        let t3:number = (box.min.y - this.origin.y) / normY;
+        let t4:number = (box.max.y - this.origin.y) / normY;
+        let t5:number = (box.min.z - this.origin.z) / normZ;
+        let t6:number = (box.max.z - this.origin.z) / normZ;
 
         let tmin:number = Math.max(
             Math.min(t1, t2), 
@@ -80,6 +104,8 @@ export class Ray
             Math.max(t5, t6)
         );
 
+        //log("intersectsBox(), tmin=" + tmin + ", tmax=" + tmax);
+
         if (tmax < 0) 
         {
             // ray would intersect, but it is pointing away from the box
@@ -90,8 +116,8 @@ export class Ray
             return -1;
         }
 
-        // if tmin < 0, the origin is inside the box, so tmax is the right intersection point (indside collision pointing out)
+        // if tmin < 0, the origin is inside the box, so tmax is the right intersection point (inside collision pointing out)
         // otherwise, it's tmin
-		return ( tmin >= 0 ? tmin : tmax );
+		return ( tmin < 0 ? tmax : tmin );
 	}
 }

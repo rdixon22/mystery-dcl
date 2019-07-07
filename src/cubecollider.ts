@@ -1,15 +1,22 @@
 import { AABB } from "./aabb";
+import { Ray } from "./ray";
 
 @Component("CubeCollider")
 export class CubeCollider 
 {
     public aabb:AABB;
     public enabled:boolean = true;
-    public collisionHandler:Function; 
+    public collisionHandler:Function;
 
     constructor(_entity:Entity, _center:Vector3, _fullSize:Vector3)
     {
         this.aabb = new AABB(_center, _fullSize);
+    }
+
+    checkRayCollision(ray:Ray):number 
+    {
+        if (!this.enabled) return -1;
+        return ray.intersectsBox(this.aabb);
     }
 
     checkCollisionNormal(newPos:Vector3, previousPos):Vector3 

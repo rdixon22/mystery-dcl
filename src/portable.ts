@@ -84,15 +84,8 @@ export class Portable {
     // Where to put it? Avatar camera is a certain height from the floor, but y coord is always zero.
     // need to drop right at our "feet" so can't drop off ledges or inside of collider objects
     let dropPos:Vector3 = Camera.instance.position.clone();
-    //if (dropPos.y > 0.265)
-    //{
-      // we are probably on top of something: account for inaccuracy of camera position
-      dropPos.y -= 1.35;
-    //}
-    //else
-    //{
-    //  dropPos.y += 0.05;
-    //}
+    dropPos.y -= 1.35;
+    
     Portable.heldObject = null;
     this.trans.position = dropPos;
     log("dropping cam.pos=" + Camera.instance.position + ", this.pos=" + this.trans.position);

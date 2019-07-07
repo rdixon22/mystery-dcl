@@ -33,7 +33,7 @@ export class AABB
 
     isPointInside(point:Vector3):boolean
     {
-        if (point.x < this.min.x || point.x < this.min.y || point.z < this.min.z) {
+        if (point.x < this.min.x || point.y < this.min.y || point.z < this.min.z) {
             return false;
         }
         if (point.x > this.max.x || point.y > this.max.y || point.z > this.max.z) {
@@ -117,27 +117,28 @@ export class AABB
 
     getFaceNormal(point:Vector3):Vector3
     {
-        if (point.y == this.max.y)
+        let tolerance:number = 0.0001;
+        if (Math.abs(point.y - this.max.y) < tolerance)
         {
             return Vector3.Up();
         }
-        else if(point.z == this.max.z)
+        else if(Math.abs(point.z - this.max.z) < tolerance )
         {
             return Vector3.Forward();  //forward
         }
-        else if(point.x == this.max.x)
+        else if(Math.abs(point.x - this.max.x) < tolerance)
         {
             return Vector3.Right();  // right
         }
-        else if(point.z == this.min.z)
+        else if(Math.abs(point.z - this.min.z) < tolerance)
         {
             return Vector3.Backward();  // backward
         }
-        else if(point.x == this.min.x)
+        else if(Math.abs(point.x - this.min.x) < tolerance)
         {
             return Vector3.Left();  // left
         }
-        else if(point.y == this.min.y)
+        else if(Math.abs(point.y - this.min.y) < tolerance)
         {
             return Vector3.Down();
         }

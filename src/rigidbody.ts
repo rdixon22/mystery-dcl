@@ -21,7 +21,7 @@ export class RigidBody {
   public gravity:Vector3 = new Vector3(0, -50, 0);
   public friction:float = 0.98;
   public bounceCount:number = 0;
-  public bounceLimit:number = 20;
+  public bounceLimit:number = 12;
   
   public ent:Entity;
   public trans:Transform; // de-reference the transform for speed
@@ -100,38 +100,39 @@ export class RigidBody {
     //let verlet = (this.velocity.add(oldVelocity).multiplyByFloats(dt/2, dt/2, dt/2));
     let verlet = this.velocity.multiplyByFloats(dt, dt, dt);
     this.newPosition = this.trans.position.add(verlet);
+    //log("move(), newPos=" + this.newPosition);
   }
 
   // Checks for collisions and other constraints
   solveConstraints(dt)
   {
-    if (this.newPosition.y <= this.groundY)
-    {
-      // bounce against the ground plane first, and set bounce velocity for next frame
-      this.bounceOffGround(dt);
-    }
-    else if (RigidBody.colliders.length > 0)
+    let collided:boolean = false;
+    if (RigidBody.colliders.length > 0)
     {
       // else check against any colliders in the list
       let i:number;
       let bounceNormal:Vector3;
       let cc:CubeCollider;
+      let r1:Ray = new Ray(this.trans.position, this.newPosition);
+      let t:number;
       for (i = 0; i < RigidBody.colliders.length; i++)
       {
         cc = RigidBody.colliders[i];
-        bounceNormal = cc.checkCollisionNormal(this.newPosition, this.trans.position);
-        //log("checkedCollision, bounceNormal=");
-        //log(bounceNormal);
-        if (bounceNormal != undefined)
+        t = cc.checkRayCollision(r1);
+        if (t >= 0)
         {
-          //log("surfacePoint=");
-          //log(cc.getClosestPoint(this.trans.position));
-          // note the following breaks if the position was already inside the box last frame
-          this.bounceOffCube(dt, bounceNormal, cc.aabb);
+          this.bounceOffCube(dt, t, r1, cc.aabb);
           // only handle one bounce per frame
+          collided = true;
+          cc.onCollision(); // in case the collider has something special to do
           break;
         }
       }
+    }
+    if (!collided && this.newPosition.y <= this.groundY)
+    {
+      // bounce against the ground plane first, and set bounce velocity for next frame
+      this.bounceOffGround(dt);
     }
 
     this.trans.position = this.newPosition;
@@ -174,22 +175,24 @@ export class RigidBody {
 
   // Calculate the bounce velocity vector
   // NOTE: This needs a lot more testing. It's acting weird in quite a few cases.
-  bounceOffCube(dt, normal:Vector3, aabb:AABB)
+  bounceOffCube(dt, t:number, ray:Ray, aabb:AABB)
   {
       // Create a ray from the last point before we entered the box, to the next point inside or beyond the box
-      let ray:Ray = new Ray(this.trans.position, this.newPosition);
-      let t:number = ray.intersectsBox(aabb);
+      //let ray:Ray = new Ray(this.trans.position, this.newPosition);
+      //let t:number = ray.intersectsBox(aabb);
+      log("pos=" + this.trans.position + "\nnew=" + this.newPosition + "\ndist=" + ray.distance + "\nt=" + t);
       if (t == -1) return; // ray does not intersect -- something is wrong
 
       // Get the point where it first hits the box
       let hitPoint:Vector3 = ray.getPoint(t);
       // Figure out the face normal at that point
       let faceNormal:Vector3 = aabb.getFaceNormal(hitPoint);
+      log("hit=" + hitPoint + "\nnorm=" + faceNormal);
 
-      let fullDist:float = ray.getDistance();
-      let travelDist:float = Vector3.Distance(this.trans.position, hitPoint);
-      let travelPct:float = travelDist / fullDist;
-      let bouncePct:float = 1 - travelPct;
+      // let fullDist:float = ray.getDistance();
+      // let travelDist:float = Vector3.Distance(this.trans.position, hitPoint);
+      // let travelPct:float = travelDist / fullDist;
+      // let bouncePct:float = 1 - travelPct;
   
       let projection:float = -2 * Vector3.Dot(this.velocity, faceNormal);
       
@@ -198,70 +201,14 @@ export class RigidBody {
       // the bounce slows it down
       newVel = newVel.multiplyByFloats(this.bounciness, this.bounciness, this.bounciness);
       
-      // put it at a spot near where it first hit the cube (this is not exact right now -- should use a ray)
-      this.newPosition = hitPoint;
-      log(this.newPosition);
+      
+      // put it at a spot near where it first hit the cube
+      // TODO: make this more efficient. Can't have it exactly on a face or else it detects a collision in the next frame too
+      this.newPosition = hitPoint.add(newVel.multiplyByFloats(0.04, 0.04, 0.04));
+      //log("new=" + this.newPosition);
       
       this.bounceCount++;
-      // velocity for next frame
-      this.velocity = newVel;
-  }
-
-  // Calculate the bounce velocity vector
-  // NOTE: This needs a lot more testing. It's acting weird in quite a few cases.
-  bounceOffCubeOld(dt, normal:Vector3, aabb:AABB)
-  {
-      let fullDist:float = Math.abs(this.trans.position.y - this.newPosition.y);
-      let groundDist:float = Math.abs(this.trans.position.y - this.groundY);
-      let groundPct:float = groundDist / fullDist;
-      let bouncePct:float = 1 - groundPct;
-  
-      let groundNormal:Vector3 = Vector3.Up();
-      // no time to finish angle calculations; just send it straight back
-      let newVel:Vector3 = normal.multiplyByFloats(this.bounciness, this.bounciness, this.bounciness).multiply(this.velocity);
-      // put it at a spot near where it first hit the cube (this is not exact right now -- should use a ray)
-      if (normal.x > 0)
-      {
-        this.newPosition.x = aabb.max.x;
-      }
-      if (normal.y > 0) {
-        // we hit the top
-        this.newPosition.y = aabb.max.y;
-      }
-      if (normal.z > 0)
-      {
-        this.newPosition.z = aabb.max.z;
-      }
-      if (normal.x < 0)
-      {
-        this.newPosition.x = aabb.min.x;
-      }
-      if (normal.y < 0) {
-        // we hit the top
-        this.newPosition.y = aabb.min.y;
-      }
-      if (normal.z < 0)
-      {
-        this.newPosition.z = aabb.min.z;
-      }
-      //log("newPos=");
-      log(this.newPosition);
-      
-      // let projection:float = -2 * Vector3.Dot(this.velocity, groundNormal);
-      // let newVel:Vector3 = normal.multiplyByFloats(projection, projection, projection);
-      // newVel = newVel.add(this.velocity);
-      // newVel = newVel.multiplyByFloats(this.bounciness, this.bounciness, this.bounciness);
-  
-      // if (fullDist > 0.0001)
-      // {
-      //   let bounceTime = bouncePct * dt * this.friction;
-      //   let bounceVel = newVel.multiplyByFloats(bounceTime, bounceTime, bounceTime);
-      //   //log("oldVel=" + this.velocity + "; bounceVel=" + newVel + "; proj=" + projection + "; bt=" + bouncePct);
-    
-      //   this.newPosition = this.newPosition.add(bounceVel);
-      //   this.bounceCount++;
-      // }
-      this.bounceCount++;
+      log("vel=" + this.velocity + "\nnewVel=" + newVel + "\nbounces=" + this.bounceCount);
       // velocity for next frame
       this.velocity = newVel;
   }
@@ -270,7 +217,7 @@ export class RigidBody {
   {
     //this.trans.position.y = this.groundY + 0.1;
     this.velocity.y = -50;
-    this.velocity.x = -3;
+    this.velocity.x = -2;
     this.velocity.z = 2;
     this.isStatic = false;
     this.bounceCount = 0;
